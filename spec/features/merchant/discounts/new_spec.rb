@@ -59,6 +59,21 @@ RSpec.describe "As a merchant employee" do
       expect(Discount.all.first.item_id).to eq(@wand.id)
     end
 
+    it "can see discounts" do
+      visit '/merchant'
+      click_on "View Discounts"
+      click_on "Create Discount"
+      fill_in :name, with: "5 / 10%"
+      fill_in :quantity, with: "5"
+      fill_in :percentage, with: "10"
+      fill_in :item_id, with: @wand.id
+      click_on "Submit"
+      expect(page).to have_content("5 / 10%")
+      expect(page).to have_content("5")
+      expect(page).to have_content("10")
+      expect(page).to have_content(@wand.name)
+    end
+
 
 
 
