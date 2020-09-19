@@ -6,8 +6,9 @@ class Order <ApplicationRecord
   has_many :items, through: :item_orders
 
   def grandtotal
-    binding.pry
-    item_orders.sum('price * quantity')
+    item_orders.sum do |item_order|
+      item_order.subtotal
+    end
   end
 
   def total_item_count(id)

@@ -5,6 +5,16 @@ class ItemOrder <ApplicationRecord
   belongs_to :order
 
   def subtotal
-    price * quantity
+    total = price * quantity
+    if discounts?
+      discount = Discount.where(item_id: item_id).where("quantity <= #{quantity}").first
+      total - (total * discount.percentage/100.to_f)
+    else
+      total
+    end
+  end
+
+  def discounts?
+    Discount.where(item_id: item_id).where("quantity <= #{quantity}").exists?
   end
 end
