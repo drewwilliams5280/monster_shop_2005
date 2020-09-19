@@ -50,9 +50,9 @@ RSpec.describe "As a merchant employee" do
       fill_in :name, with: "5 / 10%"
       fill_in :quantity, with: "5"
       fill_in :percentage, with: "10"
-      fill_in :item, with: @wand.name
+      fill_in :item_id, with: @wand.id
       click_on "Submit"
-      expect(current_path).to eq("/merchant")
+      expect(current_path).to eq("/merchant/discounts")
       expect(Discount.all.first.name).to eq("5 / 10%")
       expect(Discount.all.first.quantity).to eq(5)
       expect(Discount.all.first.percentage).to eq(10)
