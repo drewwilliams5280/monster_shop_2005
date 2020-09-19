@@ -23,12 +23,18 @@ class Cart
   end
 
   def subtotal(item)
-    item.price * @contents[item.id.to_s]
+    sub = item.price * @contents[item.id.to_s]
+    if discounts?(item)
+      discount = Discount.where(item: item).where("quantity <= #{@contents["#{item.id}"]}").first
+      sub - (sub * discount.percentage/100.to_f)
+    else
+      sub
+    end
   end
 
   def total
     @contents.sum do |item_id,quantity|
-      Item.find(item_id).price * quantity
+      subtotal(Item.find(item_id))
     end
   end
 
@@ -59,4 +65,9 @@ class Cart
         })
     end
   end
+
+  def discounts?(item)
+    Discount.where(item: item).where("quantity <= #{@contents["#{item.id}"]}").exists?
+  end
+
 end

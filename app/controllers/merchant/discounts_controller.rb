@@ -1,7 +1,8 @@
 class Merchant::DiscountsController < Merchant::BaseController
 
   def index
-    @discounts = Discount.all
+    @merchant = Merchant.find(current_user.merchant_id)
+    @discounts = @merchant.discounts
   end
 
   def new
@@ -20,6 +21,27 @@ class Merchant::DiscountsController < Merchant::BaseController
       flash.now[:error] = "Please make sure form is filled out and item belongs to you."
       render :new
     end
+  end
+
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
+  def update
+    discount = Discount.find(params[:id])
+    if discount.update(discount_params)
+      flash[:notice] = "Edit Successful!"
+      redirect_to '/merchant/discounts'
+    else
+      flash.now[:notice] = discount.errors.full_messages.uniq.to_sentence
+      render :edit
+    end
+  end
+
+  def destroy
+    discount = Discount.find(params[:id])
+    discount.destroy
+    redirect_to "/merchant/discounts"
   end
 
   private
