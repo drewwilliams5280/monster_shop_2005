@@ -25,7 +25,7 @@ class Cart
   def subtotal(item)
     sub = item.price * @contents[item.id.to_s]
     if discounts?(item)
-      discount = Discount.where(item: item).where("quantity <= #{@contents["#{item.id}"]}").first
+      discount = Discount.where(item: item).where("quantity <= #{@contents["#{item.id}"]}").order(percentage: :desc).first
       sub - (sub * discount.percentage/100.to_f)
     else
       sub

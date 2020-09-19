@@ -46,4 +46,10 @@ class Merchant <ApplicationRecord
       item.update(active?: true)
     end
   end
+
+  def create_bulk_discount(data)
+    items.each do |item|
+      Discount.create!(name: data[:name], quantity: data[:quantity], percentage: data[:percentage], item: item)
+    end
+  end
 end

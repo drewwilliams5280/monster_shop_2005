@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Discount.destroy_all
 ItemOrder.destroy_all
 Order.destroy_all
 User.destroy_all
@@ -52,6 +53,7 @@ m4.items.create!(name: 'Prince Purple Rain Vinyl Album', description: "Purple Ra
 m4.items.create!(name: "Elvis 45 (Blue Moon of Kentucky)", description: "Original 45 by one of the greats", price: 18, image: "https://www.popsike.com/pix/20050117/4068474731.jpg", active?: true, inventory: 2 )
 m4.items.create!(name: 'Muddy Waters Live at Newport', description: "Muddy's famous live performance from 1960", price: 26, image: "https://images-na.ssl-images-amazon.com/images/I/81ZPjQ77IML._SL1500_.jpg", active?: true, inventory: 4 )
 
+admin_user = User.create!(name: "Admin Man", address: "1234 Bland St.", city: "Denver", state: "CO", zip: "80085", email: "admin_user@email.com", password: "123", role: 2)
 regular_user = User.create!(name: "Scott Stapp", address: "1234 Bland St.", city: "Denver", state: "CO", zip: "80085", email: "regular_user@email.com", password: "123", role: 0)
 second_user = User.create!(name: "Drew Bob", address: "1 Bland St.", city: "Denver", state: "CO", zip: "80085", email: "second_user@email.com", password: "123", role: 0)
 third_user = User.create!(name: "Scooby Doo", address: "133 Main St.", city: "Denver", state: "CO", zip: "80085", email: "third_user@email.com", password: "123", role: 0)

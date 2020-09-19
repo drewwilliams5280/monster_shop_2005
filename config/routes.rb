@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     get '/', to: "dashboard#index"
     resources :items, only: [:index, :show, :create, :new]
     resources :discounts
+    get '/bulk_discounts/new', to: 'bulk_discounts#new'
+    post '/bulk_discounts', to: 'bulk_discounts#create'
     post '/items/new', to: "/merchant/items#new"
     resources :orders, only: [:show, :update]
     patch "/orders/:order_id/items/:item_id/update", to: "orders#update"

@@ -1,0 +1,12 @@
+<%= form_tag "/merchant/bulk_discounts", method: :post do %>
+  <%= label_tag :name_of_discount %>
+  <%= text_field_tag :name%>
+  <br>
+  <%= label_tag :quantity_needed_to_qualify_for_discount %>
+  <%= text_field_tag :quantity %>
+<br>
+<%= label_tag :percentage_off %>
+  <%= text_field_tag :percentage %>
+<br>
+  <%= submit_tag 'Submit' %>
+<% end %>

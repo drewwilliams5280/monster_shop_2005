@@ -41,37 +41,24 @@ RSpec.describe "As a merchant employee" do
       fill_in :email, with: @m1_user.email
       fill_in :password, with: @m1_user.password
       click_on "Submit"
-      visit '/merchant'
-      click_on "View Discounts"
-      click_on "Create Discount"
-      fill_in :name, with: "5 / 10%"
-      fill_in :quantity, with: "5"
-      fill_in :percentage, with: "10"
-      fill_in :item_id, with: @wand.id
-      click_on "Submit"
-      click_on "Logout"
-      within ".topnav" do
-        click_link("Login")
-      end
-      fill_in :email, with: @regular_user.email
-      fill_in :password, with: @regular_user.password
-      click_on "Submit"
     end
 
-    it "can see discount applied in cart when amount meets discount criteria" do
-      visit '/items'
-      click_on "Wand"
-      click_on "Add To Cart"
-      click_on "Cart: 1"
-      expect(page).to have_content("$22.00")
-      click_on "+"
-      expect(page).to have_content("$44.00")
-      click_on "+"
-      expect(page).to have_content("$66.00")
-      click_on "+"
-      expect(page).to have_content("$88.00")
-      click_on "+"
-      expect(page).to have_content("99.00")
+    it "can make bulk discounts for all items" do
+      visit '/merchant'
+      click_on "View Discounts"
+      click_on "Create Bulk Discount"
+      fill_in :name, with: "20 / 20%"
+      fill_in :quantity, with: "20"
+      fill_in :percentage, with: "20"
+      click_on "Submit"
+      expect(page).to have_content(@wand.name)
+      expect(page).to have_content(@cloak.name)
+      expect(page).to have_content(@tattoo.name)
+      expect(page).to have_content(@bluray.name)
+      expect(page).to have_content(@books.name)
+      expect(page).to have_content(@broom.name)
+      expect(page).to have_content(@snitch.name)
     end
+
 
   end
