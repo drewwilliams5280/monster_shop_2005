@@ -8,6 +8,7 @@ RSpec.describe Cart do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', inventory: 2 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', inventory: 3 )
+      Discount.create!(name: "5/5", quantity: 5, percentage: 5, item_id: @hippo.id)
       @cart = Cart.new({
         @ogre.id.to_s => 1,
         @giant.id.to_s => 2
@@ -44,8 +45,14 @@ RSpec.describe Cart do
     end
 
     it '.subtotal()' do
+      @cart = Cart.new({
+        @ogre.id.to_s => 1,
+        @giant.id.to_s => 2,
+        @hippo.id.to_s => 5
+        })
       expect(@cart.subtotal(@ogre)).to eq(20)
       expect(@cart.subtotal(@giant)).to eq(100)
+      expect(@cart.subtotal(@hippo)).to eq(237.50)
     end
 
     it ".add_quantity()" do

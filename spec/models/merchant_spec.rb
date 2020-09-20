@@ -75,5 +75,22 @@ describe Merchant, type: :model do
       @meg.activate_items
       expect(@meg.items.find(@tire.id).active?).to eq(true)
     end
+
+    it "can create bulk discount" do
+      @m1 = Merchant.create!(name: "Harry Potter Store", address: "#{Faker::Address.street_address} #{Faker::Address.street_suffix}", city: Faker::Address.city, state: Faker::Address.state_abbr, zip: rand(10000...99999))
+      @wand = @m1.items.create!(name: 'Wand', description: "Wand replica", price: 22, image: "https://images-na.ssl-images-amazon.com/images/I/61cWISkxk4L._AC_SL1500_.jpg", active?: true, inventory: 31 )
+      @cloak = @m1.items.create!(name: 'Cloak', description: "Harry Potter cloak", price: 35, image: "https://images.beautifulhalo.com/images/392x588/201904/K/harry-potter-gryffindor-cosplay-costume-magic-robe-cloak-halloween-costumes-cape_1554311096436.jpg", active?: true, inventory: 11 )
+      @tattoo = @m1.items.create!(name: 'Scar Tattoo', description: "Temporary Harry Potter tattoos", price: 3, image: "https://d2h1pu99sxkfvn.cloudfront.net/b0/5083776/339841950_B7PJv3ShYz/P0.jpg", active?: true, inventory: 250 )
+      @bluray = @m1.items.create!(name: 'Blu Ray Box Set', description: "All of the movies", price: 35, image: "https://images-na.ssl-images-amazon.com/images/I/81weyEaCDsL._SL1500_.jpg", active?: true, inventory: 250 )
+      @books = @m1.items.create!(name: 'Book Box Set', description: "All of the books", price: 33, image: "https://images-na.ssl-images-amazon.com/images/I/71rOzy4cyAL.jpg", active?: true, inventory: 19 )
+      @broom = @m1.items.create!(name: 'Broom', description: "Broom replica", price: 19, image: "https://images-na.ssl-images-amazon.com/images/I/41K1kDMDHcL._AC_SX466_.jpg", active?: true, inventory: 13 )
+      @snitch = @m1.items.create!(name: 'Snitch', description: "Snitch replica from quidditch", price: 65, image: "https://m2.mbl.is/PRVkEAWgTalstg5bEQ4KNMt1ucM=/758x505/smart/frimg/1/9/32/1093256.jpg", active?: true, inventory: 3 )
+      data = Hash.new
+      data[:name] = "5/5"
+      data[:quantity] = "5"
+      data[:percentage] = "5"
+      @m1.create_bulk_discount(data)
+      expect(Discount.all.count).to eq(7)
+    end
   end
 end

@@ -109,4 +109,45 @@ RSpec.describe "As a merchant employee" do
       expect(page).to_not have_content("5 / 10%")
     end
 
-  end
+    it "can get sad path error messages for empty field" do
+      visit '/merchant'
+      click_on "View Discounts"
+      click_on "Create Discount"
+      fill_in :name, with: "5 / 10%"
+      fill_in :quantity, with: ""
+      fill_in :percentage, with: "10"
+      fill_in :item_id, with: @wand.id
+      click_on "Submit"
+      expect(page).to have_content("Quantity can't be blank")
+    end
+
+    it "can get sad path error messages for wrong item" do
+      visit '/merchant'
+      click_on "View Discounts"
+      click_on "Create Discount"
+      fill_in :name, with: "5 / 10%"
+      fill_in :quantity, with: "5"
+      fill_in :percentage, with: "10"
+      fill_in :item_id, with: "3000"
+      click_on "Submit"
+      expect(page).to have_content("Please make sure form is filled out and item belongs to you")
+    end
+
+    it "can get sad path error messages for empty field during edit" do
+      visit '/merchant'
+      click_on "View Discounts"
+      click_on "Create Discount"
+      fill_in :name, with: "5 / 10%"
+      fill_in :quantity, with: "5"
+      fill_in :percentage, with: "10"
+      fill_in :item_id, with: @wand.id
+      click_on "Submit"
+      click_on "Edit Discount"
+      fill_in :name, with: "5 / 10%"
+      fill_in :quantity, with: ""
+      fill_in :percentage, with: "10"
+      click_on "Submit"
+      expect(page).to have_content("Quantity can't be blank")
+    end
+
+end
